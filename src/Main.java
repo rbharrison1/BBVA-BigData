@@ -49,7 +49,7 @@ public class Main {
                 //31-60 start with TAUD_COD_TRNS_2 (Danella)
 
 
-                //61-90 start with TAUD_EVENT9 (Dallas)
+                //61-90 started with TAUD_EVENT9 (Dallas)
                 record.setTAUD_EVENT9(fields[61]);
                 record.setTAUD_USERAUT9(fields[62]);
                 record.setTAUD_EVENT10(fields[63]);
