@@ -1,5 +1,6 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.*;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +10,9 @@ public class Main {
 
         String line;
         String[] fields;
-        List<QADTAUD> list = new ArrayList<QADTAUD>();
+        List<QADTAUD> list = new ArrayList<>();
         QADTAUD record;
+        String JsonString;
 
         //*************
         // READ IN FILE
@@ -36,7 +38,7 @@ public class Main {
                 //***************************
                 fields = line.split("[|]");
 
-                record = null;
+                record = new QADTAUD();
 
                 //************************************************************
                 // ASSIGN EACH FIELD TO CORRESPONDING MEMBER IN QADTAUD OBJECT
@@ -44,36 +46,36 @@ public class Main {
                 //************************************************************
 
                 //1-30 start with TAUD_ENT (Lauryn)
-                record.setTAUD_ENT(fields[0]);
-                record.setTAUD_URN(fields[1]);
-                record.setTAUD_STP_REG(Date.valueOf(fields[2]));
-                record.setTAUD_BRN_ACCT(fields[3]);
-                record.setTAUD_ACCT_NTNM(fields[4]);
-                record.setTAUD_ACCT_TRM(fields[5]);
-                record.setTAUD_DAY_ACCT(fields[6]);
-                record.setTAUD_DAT_ACCT(fields[7]);
-                record.setTAUD_DAT_OPERATION(fields[8]);
-                record.setTAUD_BRN_LOCATION(fields[9]);
-                record.setTAUD_NETNAME(fields[10]);
-                record.setTAUD_TERMINAL(fields[11]);
-                record.setTAUD_USER_ID(fields[12]);
-                record.setTAUD_SESSION(fields[13]);
-                record.setTAUD_TYP_TERMINAL(fields[14]);
-                record.setTAUD_TERMCODE(fields[15]);
-                record.setTAUD_DAT_TRMS(fields[16]);
-                record.setTAUD_TIM_TRMS(fields[17]);
-                record.setTAUD_CICS(fields[18]);
-                record.setTAUD_NUM_TASK(Double.valueOf(fields[19]));
-                record.setTAUD_COD_START(fields[20]);
-                record.setTAUD_FCC(fields[21]);
-                record.setTAUD_STATUS(fields[22]);
-                record.setTAUD_LNG_TERMINAL(fields[23]);
-                record.setTAUD_COD_APP_1(fields[24]);
-                record.setTAUD_COD_TRNS_2(fields[25]);
-                record.setTAUD_COD_PROGRAM_1(fields[26]);
-                record.setTAUD_PASS_CTRL_2(fields[27]);
-                record.setTAUD_COD_APP_2(fields[28]);
-                record.setTAUD_COD_TRNS_2(fields[29]);
+                record.setTAUD_ENT(fields[1]);
+                record.setTAUD_URN(fields[2]);
+                record.setTAUD_STP_REG(fields[3]);
+                record.setTAUD_BRN_ACCT(fields[4]);
+                record.setTAUD_ACCT_NTNM(fields[5]);
+                record.setTAUD_ACCT_TRM(fields[6]);
+                record.setTAUD_DAY_ACCT(fields[7]);
+                record.setTAUD_DAT_ACCT(fields[8]);
+                record.setTAUD_DAT_OPERATION(fields[9]);
+                record.setTAUD_BRN_LOCATION(fields[10]);
+                record.setTAUD_NETNAME(fields[11]);
+                record.setTAUD_TERMINAL(fields[12]);
+                record.setTAUD_USER_ID(fields[13]);
+                record.setTAUD_SESSION(fields[14]);
+                record.setTAUD_TYP_TERMINAL(fields[15]);
+                record.setTAUD_TERMCODE(fields[16]);
+                record.setTAUD_DAT_TRMS(fields[17]);
+                record.setTAUD_TIM_TRMS(fields[18]);
+                record.setTAUD_CICS(fields[19]);
+                record.setTAUD_NUM_TASK(Double.parseDouble(fields[20]));
+                record.setTAUD_COD_START(fields[21]);
+                record.setTAUD_FCC(fields[22]);
+                record.setTAUD_STATUS(fields[23]);
+                record.setTAUD_LNG_TERMINAL(fields[24]);
+                record.setTAUD_COD_APP_1(fields[25]);
+                record.setTAUD_COD_TRNS_2(fields[26]);
+                record.setTAUD_COD_PROGRAM_1(fields[27]);
+                record.setTAUD_PASS_CTRL_2(fields[28]);
+                record.setTAUD_COD_APP_2(fields[29]);
+                record.setTAUD_COD_TRNS_2(fields[30]);
 
 
 
@@ -117,28 +119,28 @@ public class Main {
 
 
                 //121-142 start with TAUD_AMT_CSHCRE (Ryne)
-                record.setTAUD_AMT_CSHCRE(Double.parseDouble(fields[120]));
-                record.setTAUD_AMT_CLCRE(Double.parseDouble(fields[121]));
-                record.setTAUD_NUM_JOU_REC(Double.parseDouble(fields[122]));
-                record.setTAUD_FLG_UPD_STR(fields[123]);
-                record.setTAUD_NUM_SEND(Double.parseDouble(fields[124]));
-                record.setTAUD_NUM_CHARACTER(Double.parseDouble(fields[125]));
-                record.setTAUD_NUM_MAP_DOCU(Double.parseDouble(fields[126]));
-                record.setTAUD_NUM_MAP_SCR(Double.parseDouble(fields[127]));
-                record.setTAUD_NUM_STD_MAP(Double.parseDouble(fields[128]));
-                record.setTAUD_NUM_NOSTD_MAP(Double.parseDouble(fields[129]));
-                record.setTAUD_PREFORMAT_1(fields[130]);
-                record.setTAUD_PREFORMAT_2(fields[131]);
-                record.setTAUD_ERR_OBJECT(fields[132]);
-                record.setTAUD_SQLCODE(Integer.parseInt(fields[133]));
-                record.setTAUD_SQLERRM(fields[134]);
-                record.setTAUD_EIBFN(fields[135]);
-                record.setTAUD_EIBRSRCE(fields[136]);
-                record.setTAUD_EIBRCODE(fields[137]);
-                record.setTAUD_EIBRESP1(Integer.parseInt(fields[138]));
-                record.setTAUD_EIBRESP2(Integer.parseInt(fields[139]));
-                record.setTAUD_INP_MSG_LTH(Double.parseDouble(fields[140]));
-                record.setTAUD_INP_MSG(fields[141]);
+                record.setTAUD_AMT_CSHCRE(Double.parseDouble(fields[121]));
+                record.setTAUD_AMT_CLCRE(Double.parseDouble(fields[122]));
+                record.setTAUD_NUM_JOU_REC(Double.parseDouble(fields[123]));
+                record.setTAUD_FLG_UPD_STR(fields[124]);
+                record.setTAUD_NUM_SEND(Double.parseDouble(fields[125]));
+                record.setTAUD_NUM_CHARACTER(Double.parseDouble(fields[126]));
+                record.setTAUD_NUM_MAP_DOCU(Double.parseDouble(fields[127]));
+                record.setTAUD_NUM_MAP_SCR(Double.parseDouble(fields[128]));
+                record.setTAUD_NUM_STD_MAP(Double.parseDouble(fields[129]));
+                record.setTAUD_NUM_NOSTD_MAP(Double.parseDouble(fields[130]));
+                record.setTAUD_PREFORMAT_1(fields[131]);
+                record.setTAUD_PREFORMAT_2(fields[132]);
+                record.setTAUD_ERR_OBJECT(fields[133]);
+                record.setTAUD_SQLCODE(Integer.parseInt(fields[134]));
+                record.setTAUD_SQLERRM(fields[135]);
+                record.setTAUD_EIBFN(fields[136]);
+                record.setTAUD_EIBRSRCE(fields[137]);
+                record.setTAUD_EIBRCODE(fields[138]);
+                record.setTAUD_EIBRESP1(Integer.parseInt(fields[139]));
+                record.setTAUD_EIBRESP2(Integer.parseInt(fields[140]));
+                record.setTAUD_INP_MSG_LTH(Double.parseDouble(fields[141]));
+                record.setTAUD_INP_MSG(fields[142]);
 
 
 
@@ -156,7 +158,20 @@ public class Main {
         //*********************************
         // CONVERT FROM JAVA OBJECT TO JSON
         //*********************************
+        final OutputStream out = new ByteArrayOutputStream();
+        final ObjectMapper mapper = new ObjectMapper();
 
+        try
+        {
+            mapper.writeValue(out, list);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JsonString = out.toString();
+
+        System.out.print(JsonString);
 
 
         //******************

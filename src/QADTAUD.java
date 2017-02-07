@@ -6,7 +6,7 @@ import java.util.Date;
 public class QADTAUD {
     private String TAUD_ENT;
     private String TAUD_URN;
-    private Date TAUD_STP_REG;
+    private String TAUD_STP_REG;
     private String TAUD_BRN_ACCT;
     private String TAUD_ACCT_NTNM;
     private String TAUD_ACCT_TRM;
@@ -164,11 +164,11 @@ public class QADTAUD {
         this.TAUD_URN = TAUD_URN;
     }
 
-    public Date getTAUD_STP_REG() {
+    public String getTAUD_STP_REG() {
         return TAUD_STP_REG;
     }
 
-    public void setTAUD_STP_REG(Date TAUD_STP_REG) {
+    public void setTAUD_STP_REG(String TAUD_STP_REG) {
         this.TAUD_STP_REG = TAUD_STP_REG;
     }
 
