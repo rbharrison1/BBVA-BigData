@@ -84,7 +84,36 @@ public class Main {
 
 
                 //91-120 start with TAUD_ENT_ANALYTIC (Taylor)
-
+                record.setTAUD_ENT_ANALYTIC(fields[91]);
+                record.setTAUD_CEN_ANALYTIC(fields[92]);
+                record.setTAUD_ANL_PROD(fields[93]);
+                record.setTAUD_CUSTOMER(fields[94]);
+                record.setTAUD_AMT(Double.parseDouble(fields[95]));
+                record.setTAUD_COD_SPRD(fields[96]);
+                record.setTAUD_ANL_AIM(fields[97]);
+                record.setTAUD_ANL_COLT(fields[98]);
+                record.setTAUD_ANL_SUBCLASSI(fields[99]);
+                record.setTAUD_TYP_OPE(fields[100]);
+                record.setTAUD_ACCT_OPE(fields[101]);
+                record.setTAUD_DTA_APP(fields[102]);
+                record.setTAUD_CHANNEL(fields[103]);
+                record.setTAUD_SW_COD_START(fields[104]);
+                record.setTAUD_SW_LGON_USERI(fields[105]);
+                record.setTAUD_SW_PREFMT(fields[106]);
+                record.setTAUD_SW_MGC_ALRM(fields[107]);
+                record.setTAUD_SW_FLG_CHK_PS(fields[108]);
+                record.setTAUD_SW_TYP_EXCEPT(fields[109]);
+                record.setTAUD_FLG_ANL_CHK(fields[110]);
+                record.setTAUD_NUM_ANL_CHK(Double.parseDouble(fields[111]));
+                record.setTAUD_SW_TYP_CEN(fields[112]);
+                record.setTAUD_SW_RISK_APPR(fields[113]);
+                record.setTAUD_NUM_TASK_TIM(Double.parseDouble(fields[114]));
+                record.setTAUD_NUM_APP_TIM_1(Double.parseDouble(fields[115]));
+                record.setTAUD_NUM_APP_TIM_2(Double.parseDouble(fields[116]));
+                record.setTAUD_FLG_EMULATION(fields[117]);
+                record.setTAUD_NUM_VAL_RUT(Double.parseDouble(fields[118]));
+                record.setTAUD_DEB_CASH(Double.parseDouble(fields[119]));
+                record.setTAUD_DEB_CLEARING(Double.parseDouble(fields[120]));
 
                 //121-142 start with TAUD_AMT_CSHCRE (Ryne)
                 record.setTAUD_AMT_CSHCRE(Double.parseDouble(fields[120]));
