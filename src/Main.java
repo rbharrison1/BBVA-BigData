@@ -87,6 +87,30 @@ public class Main {
 
 
                 //121-142 start with TAUD_AMT_CSHCRE (Ryne)
+                record.setTAUD_AMT_CSHCRE(Double.parseDouble(fields[120]));
+                record.setTAUD_AMT_CLCRE(Double.parseDouble(fields[121]));
+                record.setTAUD_NUM_JOU_REC(Double.parseDouble(fields[122]));
+                record.setTAUD_FLG_UPD_STR(fields[123]);
+                record.setTAUD_NUM_SEND(Double.parseDouble(fields[124]));
+                record.setTAUD_NUM_CHARACTER(Double.parseDouble(fields[125]));
+                record.setTAUD_NUM_MAP_DOCU(Double.parseDouble(fields[126]));
+                record.setTAUD_NUM_MAP_SCR(Double.parseDouble(fields[127]));
+                record.setTAUD_NUM_STD_MAP(Double.parseDouble(fields[128]));
+                record.setTAUD_NUM_NOSTD_MAP(Double.parseDouble(fields[129]));
+                record.setTAUD_PREFORMAT_1(fields[130]);
+                record.setTAUD_PREFORMAT_2(fields[131]);
+                record.setTAUD_ERR_OBJECT(fields[132]);
+                record.setTAUD_SQLCODE(Integer.parseInt(fields[133]));
+                record.setTAUD_SQLERRM(fields[134]);
+                record.setTAUD_EIBFN(fields[135]);
+                record.setTAUD_EIBRSRCE(fields[136]);
+                record.setTAUD_EIBRCODE(fields[137]);
+                record.setTAUD_EIBRESP1(Integer.parseInt(fields[138]));
+                record.setTAUD_EIBRESP2(Integer.parseInt(fields[139]));
+                record.setTAUD_INP_MSG_LTH(Double.parseDouble(fields[140]));
+                record.setTAUD_INP_MSG(fields[141]);
+
+
 
 
                 list.add(record);
