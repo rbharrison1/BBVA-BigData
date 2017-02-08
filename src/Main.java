@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
@@ -80,7 +81,37 @@ public class Main {
 
 
                 //31-60 start with TAUD_COD_TRNS_2 (Danella)
-
+                record.setTAUD_COD_TRNS_2(fields[30]);
+                record.setTAUD_COD_PROGRAM_2(fields[31]);
+                record.setTAUD_ST_INP(fields[32]);
+                record.setTAUD_CASE_A1(fields[33]);
+                record.setTAUD_DTA_INPUT(fields[34]);
+                record.setTAUD_DTA_LTH_INP(Double.parseDouble(fields[35]));
+                record.setTAUD_ST_OUT(fields[36]);
+                record.setTAUD_CASE_A2(fields[37]);
+                record.setTAUD_DTA_OUTPUT(fields[38]);
+                record.setTAUD_DTA_LTH_OUT(Double.parseDouble(fields[39]));
+                record.setTAUD_COD_NEXT_TRNS(fields[40]);
+                record.setTAUD_ACTION(fields[41]);
+                record.setTAUD_JOB(fields[42]);
+                record.setTAUD_CASE(fields[43]);
+                record.setTAUD_DTA(fields[44]);
+                record.setTAUD_EVENT1(fields[45]);
+                record.setTAUD_USERAUT1(fields[46]);
+                record.setTAUD_EVENT2(fields[47]);
+                record.setTAUD_USERAUT2(fields[48]);
+                record.setTAUD_EVENT3(fields[49]);
+                record.setTAUD_USERAUT3(fields[50]);
+                record.setTAUD_EVENT4(fields[51]);
+                record.setTAUD_USERAUT4(fields[52]);
+                record.setTAUD_EVENT5(fields[53]);
+                record.setTAUD_USERAUT5(fields[54]);
+                record.setTAUD_EVENT6(fields[55]);
+                record.setTAUD_USERAUT6(fields[56]);
+                record.setTAUD_EVENT7(fields[57]);
+                record.setTAUD_USERAUT7(fields[58]);
+                record.setTAUD_EVENT8(fields[59]);
+                record.setTAUD_USERAUT8(fields[60]);
 
                 //61-90 started with TAUD_EVENT9 (Dallas)
                 record.setTAUD_EVENT9(fields[61]);
@@ -190,13 +221,13 @@ public class Main {
         final OutputStream out = new ByteArrayOutputStream();
         final ObjectMapper mapper = new ObjectMapper();
 
-        try
-        {
-            mapper.writeValue(out, list);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        //try
+        //{
+            //mapper.writeValue(out, list);
+        //}
+        //catch (IOException e) {
+            //e.printStackTrace();
+        //}
 
         JsonString = out.toString();
 
