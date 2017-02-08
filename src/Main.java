@@ -1,4 +1,3 @@
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
@@ -72,7 +71,7 @@ public class Main {
                 record.setTAUD_STATUS(fields[23]);
                 record.setTAUD_LNG_TERMINAL(fields[24]);
                 record.setTAUD_COD_APP_1(fields[25]);
-                record.setTAUD_COD_TRNS_2(fields[26]);
+                record.setTAUD_COD_TRNS_1(fields[26]);
                 record.setTAUD_COD_PROGRAM_1(fields[27]);
                 record.setTAUD_PASS_CTRL_2(fields[28]);
                 record.setTAUD_COD_APP_2(fields[29]);
@@ -220,13 +219,13 @@ public class Main {
         final OutputStream out = new ByteArrayOutputStream();
         final ObjectMapper mapper = new ObjectMapper();
 
-        //try
-        //{
-            //mapper.writeValue(out, list);
-        //}
-        //catch (IOException e) {
-            //e.printStackTrace();
-        //}
+        try
+        {
+            mapper.writeValue(out, list);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
         JsonString = out.toString();
 
@@ -241,4 +240,6 @@ public class Main {
 
 
     }
+
+
 }
