@@ -66,7 +66,7 @@ public class Main {
                 record.setTAUD_DAT_TRMS(fields[17]);
                 record.setTAUD_TIM_TRMS(fields[18]);
                 record.setTAUD_CICS(fields[19]);
-                record.setTAUD_NUM_TASK(Double.parseDouble(fields[20]));
+                record.setTAUD_NUM_TASK(Double.parseDouble(fields[20].replace(",","")));
                 record.setTAUD_COD_START(fields[21]);
                 record.setTAUD_FCC(fields[22]);
                 record.setTAUD_STATUS(fields[23]);
@@ -80,8 +80,7 @@ public class Main {
 
 
 
-                //31-60 start with TAUD_COD_TRNS_2 (Danella)
-                record.setTAUD_COD_TRNS_2(fields[30]);
+                //31-60 start with TAUD_COD_PROGRAM_2 (Danella)
                 record.setTAUD_COD_PROGRAM_2(fields[31]);
                 record.setTAUD_ST_INP(fields[32]);
                 record.setTAUD_CASE_A1(fields[33]);
@@ -135,14 +134,14 @@ public class Main {
                 record.setTAUD_NFT_1_VAR_2(fields[79]);
                 record.setTAUD_NFT_2_VAR_1(fields[80]);
                 record.setTAUD_NFT_2_VAR_2(fields[81]);
-                record.setTAUD_AMT_DISPENSER(Double.parseDouble(fields[82]));
+                record.setTAUD_AMT_DISPENSER(Double.parseDouble(fields[82].replace(",","")));
                 record.setTAUD_LCL_EJOU(fields[83]);
                 record.setTAUD_TYP_OUTPUT(fields[84]);
                 record.setTAUD_DES_OUT_CPY(fields[85]);
                 record.setTAUD_ARG_SEARCH(fields[86]);
                 record.setTAUD_DESTINATIONS(fields[87]);
                 record.setTAUD_FLG_PEND_AUT(fields[88]);
-                record.setTAUD_AMT_PEND_AUT(Double.parseDouble(fields[89]));
+                record.setTAUD_AMT_PEND_AUT(Double.parseDouble(fields[89].replace(",","")));
                 record.setTAUD_CUS_ADDIT_DAT(fields[90]);
 
 
@@ -179,27 +178,27 @@ public class Main {
                 record.setTAUD_DEB_CLEARING(Double.parseDouble(fields[120]));
 
                 //121-142 start with TAUD_AMT_CSHCRE (Ryne)
-                record.setTAUD_AMT_CSHCRE(Double.parseDouble(fields[121]));
-                record.setTAUD_AMT_CLCRE(Double.parseDouble(fields[122]));
-                record.setTAUD_NUM_JOU_REC(Double.parseDouble(fields[123]));
+                record.setTAUD_AMT_CSHCRE(Double.parseDouble(fields[121].replace(",","")));
+                record.setTAUD_AMT_CLCRE(Double.parseDouble(fields[122].replace(",","")));
+                record.setTAUD_NUM_JOU_REC(Double.parseDouble(fields[123].replace(",","")));
                 record.setTAUD_FLG_UPD_STR(fields[124]);
-                record.setTAUD_NUM_SEND(Double.parseDouble(fields[125]));
-                record.setTAUD_NUM_CHARACTER(Double.parseDouble(fields[126]));
-                record.setTAUD_NUM_MAP_DOCU(Double.parseDouble(fields[127]));
-                record.setTAUD_NUM_MAP_SCR(Double.parseDouble(fields[128]));
-                record.setTAUD_NUM_STD_MAP(Double.parseDouble(fields[129]));
-                record.setTAUD_NUM_NOSTD_MAP(Double.parseDouble(fields[130]));
+                record.setTAUD_NUM_SEND(Double.parseDouble(fields[125].replace(",","")));
+                record.setTAUD_NUM_CHARACTER(Double.parseDouble(fields[126].replace(",","")));
+                record.setTAUD_NUM_MAP_DOCU(Double.parseDouble(fields[127].replace(",","")));
+                record.setTAUD_NUM_MAP_SCR(Double.parseDouble(fields[128].replace(",","")));
+                record.setTAUD_NUM_STD_MAP(Double.parseDouble(fields[129].replace(",","")));
+                record.setTAUD_NUM_NOSTD_MAP(Double.parseDouble(fields[130].replace(",","")));
                 record.setTAUD_PREFORMAT_1(fields[131]);
                 record.setTAUD_PREFORMAT_2(fields[132]);
                 record.setTAUD_ERR_OBJECT(fields[133]);
-                record.setTAUD_SQLCODE(Integer.parseInt(fields[134]));
+                record.setTAUD_SQLCODE(Integer.parseInt(fields[134].replace(",","")));
                 record.setTAUD_SQLERRM(fields[135]);
                 record.setTAUD_EIBFN(fields[136]);
                 record.setTAUD_EIBRSRCE(fields[137]);
                 record.setTAUD_EIBRCODE(fields[138]);
-                record.setTAUD_EIBRESP1(Integer.parseInt(fields[139]));
-                record.setTAUD_EIBRESP2(Integer.parseInt(fields[140]));
-                record.setTAUD_INP_MSG_LTH(Double.parseDouble(fields[141]));
+                record.setTAUD_EIBRESP1(Integer.parseInt(fields[139].replace(",","")));
+                record.setTAUD_EIBRESP2(Integer.parseInt(fields[140].replace(",","")));
+                record.setTAUD_INP_MSG_LTH(Double.parseDouble(fields[141].replace(",","")));
                 record.setTAUD_INP_MSG(fields[142]);
 
 
