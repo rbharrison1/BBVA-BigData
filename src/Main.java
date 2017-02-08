@@ -205,11 +205,7 @@ public class Main {
 
                 list.add(record);
             }
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
