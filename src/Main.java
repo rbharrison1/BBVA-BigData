@@ -1,8 +1,9 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.*;
+import com.mongodb.util.JSON;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Main {
 
@@ -84,11 +85,11 @@ public class Main {
                 record.setTAUD_ST_INP(fields[32]);
                 record.setTAUD_CASE_A1(fields[33]);
                 record.setTAUD_DTA_INPUT(fields[34]);
-                record.setTAUD_DTA_LTH_INP(Double.parseDouble(fields[35]));
+                record.setTAUD_DTA_LTH_INP(Double.parseDouble(fields[35].replace(",","")));
                 record.setTAUD_ST_OUT(fields[36]);
                 record.setTAUD_CASE_A2(fields[37]);
                 record.setTAUD_DTA_OUTPUT(fields[38]);
-                record.setTAUD_DTA_LTH_OUT(Double.parseDouble(fields[39]));
+                record.setTAUD_DTA_LTH_OUT(Double.parseDouble(fields[39].replace(",","")));
                 record.setTAUD_COD_NEXT_TRNS(fields[40]);
                 record.setTAUD_ACTION(fields[41]);
                 record.setTAUD_JOB(fields[42]);
@@ -149,7 +150,7 @@ public class Main {
                 record.setTAUD_CEN_ANALYTIC(fields[92]);
                 record.setTAUD_ANL_PROD(fields[93]);
                 record.setTAUD_CUSTOMER(fields[94]);
-                record.setTAUD_AMT(Double.parseDouble(fields[95]));
+                record.setTAUD_AMT(Double.parseDouble(fields[95].replace(",","")));
                 record.setTAUD_COD_SPRD(fields[96]);
                 record.setTAUD_ANL_AIM(fields[97]);
                 record.setTAUD_ANL_COLT(fields[98]);
@@ -165,16 +166,16 @@ public class Main {
                 record.setTAUD_SW_FLG_CHK_PS(fields[108]);
                 record.setTAUD_SW_TYP_EXCEPT(fields[109]);
                 record.setTAUD_FLG_ANL_CHK(fields[110]);
-                record.setTAUD_NUM_ANL_CHK(Double.parseDouble(fields[111]));
+                record.setTAUD_NUM_ANL_CHK(Double.parseDouble(fields[111].replace(",","")));
                 record.setTAUD_SW_TYP_CEN(fields[112]);
                 record.setTAUD_SW_RISK_APPR(fields[113]);
-                record.setTAUD_NUM_TASK_TIM(Double.parseDouble(fields[114]));
-                record.setTAUD_NUM_APP_TIM_1(Double.parseDouble(fields[115]));
-                record.setTAUD_NUM_APP_TIM_2(Double.parseDouble(fields[116]));
+                record.setTAUD_NUM_TASK_TIM(Double.parseDouble(fields[114].replace(",","")));
+                record.setTAUD_NUM_APP_TIM_1(Double.parseDouble(fields[115].replace(",","")));
+                record.setTAUD_NUM_APP_TIM_2(Double.parseDouble(fields[116].replace(",","")));
                 record.setTAUD_FLG_EMULATION(fields[117]);
-                record.setTAUD_NUM_VAL_RUT(Double.parseDouble(fields[118]));
-                record.setTAUD_DEB_CASH(Double.parseDouble(fields[119]));
-                record.setTAUD_DEB_CLEARING(Double.parseDouble(fields[120]));
+                record.setTAUD_NUM_VAL_RUT(Double.parseDouble(fields[118].replace(",","")));
+                record.setTAUD_DEB_CASH(Double.parseDouble(fields[119].replace(",","")));
+                record.setTAUD_DEB_CLEARING(Double.parseDouble(fields[120].replace(",","")));
 
                 //121-142 start with TAUD_AMT_CSHCRE (Ryne)
                 record.setTAUD_AMT_CSHCRE(Double.parseDouble(fields[121].replace(",","")));
@@ -225,6 +226,7 @@ public class Main {
 
         JsonString = out.toString();
 
+        //writing to file
         try (FileWriter file = new FileWriter("C:/Users/rharrison15/Desktop/output.json")){
             file.write(JsonString);
             System.out.println("Successfully written to file.");
@@ -239,8 +241,19 @@ public class Main {
         // INSERT TO MONGODB
         //******************
 
+        MongoClient client = new MongoClient("BBVA-bigdata.eil-server.cba.ua.edu", 27017);
 
+        DB db = client.getDB("AuditTrail");
 
+        DBCollection myColl = db.getCollection("Records");
+
+        BasicDBList data = (BasicDBList) JSON.parse(JsonString);
+
+        for (Object x : data) {
+            myColl.insert((DBObject) x);
+        }
+
+        client.close();
 
     }
 
