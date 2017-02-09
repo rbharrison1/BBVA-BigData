@@ -225,7 +225,14 @@ public class Main {
 
         JsonString = out.toString();
 
-        System.out.print(JsonString);
+        try (FileWriter file = new FileWriter("C:/Users/rharrison15/Desktop/output.json")){
+            file.write(JsonString);
+            System.out.println("Successfully written to file.");
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
 
         //******************
