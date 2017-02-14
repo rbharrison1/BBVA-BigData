@@ -1,6 +1,8 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.*;
-import com.mongodb.util.JSON;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 
 import java.io.*;
 import java.util.*;
@@ -11,7 +13,7 @@ public class Main {
 
         String line;
         String[] fields;
-        List<DBObject> list = new ArrayList<>();
+        List<Document> list = new ArrayList<>();
         QADTAUD record;
         int i;
 
@@ -20,9 +22,9 @@ public class Main {
 
         MongoClient client = new MongoClient("BBVA-bigdata.eil-server.cba.ua.edu", 27017);
 
-        DB db = client.getDB("AuditTrail");
+        MongoDatabase db = client.getDatabase("AuditTrail");
 
-        DBCollection myColl = db.getCollection("Test");
+        MongoCollection myColl = db.getCollection("Test");
 
         //*************
         // READ IN FILE
@@ -61,131 +63,131 @@ public class Main {
 
                 if (fields.length > 100) {
                     //1-30 start with TAUD_ENT (Lauryn)
-                    record.setTAUD_ENT(fields[1]);
-                    record.setTAUD_URN(fields[2]);
-                    record.setTAUD_STP_REG(fields[3]);
-                    record.setTAUD_BRN_ACCT(fields[4]);
-                    record.setTAUD_ACCT_NTNM(fields[5]);
-                    record.setTAUD_ACCT_TRM(fields[6]);
-                    record.setTAUD_DAY_ACCT(fields[7]);
-                    record.setTAUD_DAT_ACCT(fields[8]);
-                    record.setTAUD_DAT_OPERATION(fields[9]);
-                    record.setTAUD_BRN_LOCATION(fields[10]);
-                    record.setTAUD_NETNAME(fields[11]);
-                    record.setTAUD_TERMINAL(fields[12]);
-                    record.setTAUD_USER_ID(fields[13]);
-                    record.setTAUD_SESSION(fields[14]);
-                    record.setTAUD_TYP_TERMINAL(fields[15]);
-                    record.setTAUD_TERMCODE(fields[16]);
-                    record.setTAUD_DAT_TRMS(fields[17]);
-                    record.setTAUD_TIM_TRMS(fields[18]);
-                    record.setTAUD_CICS(fields[19]);
+                    record.setTAUD_ENT(checkNull(fields[1]));
+                    record.setTAUD_URN(checkNull(fields[2]));
+                    record.setTAUD_STP_REG(checkNull(fields[3]));
+                    record.setTAUD_BRN_ACCT(checkNull(fields[4]));
+                    record.setTAUD_ACCT_NTNM(checkNull(fields[5]));
+                    record.setTAUD_ACCT_TRM(checkNull(fields[6]));
+                    record.setTAUD_DAY_ACCT(checkNull(fields[7]));
+                    record.setTAUD_DAT_ACCT(checkNull(fields[8]));
+                    record.setTAUD_DAT_OPERATION(checkNull(fields[9]));
+                    record.setTAUD_BRN_LOCATION(checkNull(fields[10]));
+                    record.setTAUD_NETNAME(checkNull(fields[11]));
+                    record.setTAUD_TERMINAL(checkNull(fields[12]));
+                    record.setTAUD_USER_ID(checkNull(fields[13]));
+                    record.setTAUD_SESSION(checkNull(fields[14]));
+                    record.setTAUD_TYP_TERMINAL(checkNull(fields[15]));
+                    record.setTAUD_TERMCODE(checkNull(fields[16]));
+                    record.setTAUD_DAT_TRMS(checkNull(fields[17]));
+                    record.setTAUD_TIM_TRMS(checkNull(fields[18]));
+                    record.setTAUD_CICS(checkNull(fields[19]));
                     record.setTAUD_NUM_TASK(Double.parseDouble(fields[20].replace(",", "")));
-                    record.setTAUD_COD_START(fields[21]);
-                    record.setTAUD_FCC(fields[22]);
-                    record.setTAUD_STATUS(fields[23]);
-                    record.setTAUD_LNG_TERMINAL(fields[24]);
-                    record.setTAUD_COD_APP_1(fields[25]);
-                    record.setTAUD_COD_TRNS_1(fields[26]);
-                    record.setTAUD_COD_PROGRAM_1(fields[27]);
-                    record.setTAUD_PASS_CTRL_2(fields[28]);
-                    record.setTAUD_COD_APP_2(fields[29]);
-                    record.setTAUD_COD_TRNS_2(fields[30]);
+                    record.setTAUD_COD_START(checkNull(fields[21]));
+                    record.setTAUD_FCC(checkNull(fields[22]));
+                    record.setTAUD_STATUS(checkNull(fields[23]));
+                    record.setTAUD_LNG_TERMINAL(checkNull(fields[24]));
+                    record.setTAUD_COD_APP_1(checkNull(fields[25]));
+                    record.setTAUD_COD_TRNS_1(checkNull(fields[26]));
+                    record.setTAUD_COD_PROGRAM_1(checkNull(fields[27]));
+                    record.setTAUD_PASS_CTRL_2(checkNull(fields[28]));
+                    record.setTAUD_COD_APP_2(checkNull(fields[29]));
+                    record.setTAUD_COD_TRNS_2(checkNull(fields[30]));
 
 
-                    //31-60 start with TAUD_COD_PROGRAM_2 (Danella)
-                    record.setTAUD_COD_PROGRAM_2(fields[31]);
-                    record.setTAUD_ST_INP(fields[32]);
-                    record.setTAUD_CASE_A1(fields[33]);
-                    record.setTAUD_DTA_INPUT(fields[34]);
+                    //31-60 start with TAUD_COD_PROGRAM_2 (Danella))
+                    record.setTAUD_COD_PROGRAM_2(checkNull(fields[31]));
+                    record.setTAUD_ST_INP(checkNull(fields[32]));
+                    record.setTAUD_CASE_A1(checkNull(fields[33]));
+                    record.setTAUD_DTA_INPUT(checkNull(fields[34]));
                     record.setTAUD_DTA_LTH_INP(Double.parseDouble(fields[35].replace(",", "")));
-                    record.setTAUD_ST_OUT(fields[36]);
-                    record.setTAUD_CASE_A2(fields[37]);
-                    record.setTAUD_DTA_OUTPUT(fields[38]);
+                    record.setTAUD_ST_OUT(checkNull(fields[36]));
+                    record.setTAUD_CASE_A2(checkNull(fields[37]));
+                    record.setTAUD_DTA_OUTPUT(checkNull(fields[38]));
                     record.setTAUD_DTA_LTH_OUT(Double.parseDouble(fields[39].replace(",", "")));
-                    record.setTAUD_COD_NEXT_TRNS(fields[40]);
-                    record.setTAUD_ACTION(fields[41]);
-                    record.setTAUD_JOB(fields[42]);
-                    record.setTAUD_CASE(fields[43]);
-                    record.setTAUD_DTA(fields[44]);
-                    record.setTAUD_EVENT1(fields[45]);
-                    record.setTAUD_USERAUT1(fields[46]);
-                    record.setTAUD_EVENT2(fields[47]);
-                    record.setTAUD_USERAUT2(fields[48]);
-                    record.setTAUD_EVENT3(fields[49]);
-                    record.setTAUD_USERAUT3(fields[50]);
-                    record.setTAUD_EVENT4(fields[51]);
-                    record.setTAUD_USERAUT4(fields[52]);
-                    record.setTAUD_EVENT5(fields[53]);
-                    record.setTAUD_USERAUT5(fields[54]);
-                    record.setTAUD_EVENT6(fields[55]);
-                    record.setTAUD_USERAUT6(fields[56]);
-                    record.setTAUD_EVENT7(fields[57]);
-                    record.setTAUD_USERAUT7(fields[58]);
-                    record.setTAUD_EVENT8(fields[59]);
-                    record.setTAUD_USERAUT8(fields[60]);
+                    record.setTAUD_COD_NEXT_TRNS(checkNull(fields[40]));
+                    record.setTAUD_ACTION(checkNull(fields[41]));
+                    record.setTAUD_JOB(checkNull(fields[42]));
+                    record.setTAUD_CASE(checkNull(fields[43]));
+                    record.setTAUD_DTA(checkNull(fields[44]));
+                    record.setTAUD_EVENT1(checkNull(fields[45]));
+                    record.setTAUD_USERAUT1(checkNull(fields[46]));
+                    record.setTAUD_EVENT2(checkNull(fields[47]));
+                    record.setTAUD_USERAUT2(checkNull(fields[48]));
+                    record.setTAUD_EVENT3(checkNull(fields[49]));
+                    record.setTAUD_USERAUT3(checkNull(fields[50]));
+                    record.setTAUD_EVENT4(checkNull(fields[51]));
+                    record.setTAUD_USERAUT4(checkNull(fields[52]));
+                    record.setTAUD_EVENT5(checkNull(fields[53]));
+                    record.setTAUD_USERAUT5(checkNull(fields[54]));
+                    record.setTAUD_EVENT6(checkNull(fields[55]));
+                    record.setTAUD_USERAUT6(checkNull(fields[56]));
+                    record.setTAUD_EVENT7(checkNull(fields[57]));
+                    record.setTAUD_USERAUT7(checkNull(fields[58]));
+                    record.setTAUD_EVENT8(checkNull(fields[59]));
+                    record.setTAUD_USERAUT8(checkNull(fields[60]));
 
-                    //61-90 started with TAUD_EVENT9 (Dallas)
-                    record.setTAUD_EVENT9(fields[61]);
-                    record.setTAUD_USERAUT9(fields[62]);
-                    record.setTAUD_EVENT10(fields[63]);
-                    record.setTAUD_USERAUT10(fields[64]);
-                    record.setTAUD_DES_INP_CPY(fields[65]);
-                    record.setTAUD_INP_PANL(fields[66]);
-                    record.setTAUD_TYP_PROCESS(fields[67]);
-                    record.setTAUD_NUM_SEQUENCE(fields[68]);
-                    record.setTAUD_KEY(fields[69]);
-                    record.setTAUD_ATM(fields[70]);
-                    record.setTAUD_DTA_INP_MOD(fields[71]);
-                    record.setTAUD_TYP_MESSAGE(fields[72]);
-                    record.setTAUD_ERR_COD(fields[73]);
-                    record.setTAUD_COD_NOTIFY1(fields[74]);
-                    record.setTAUD_COD_NOTIFY2(fields[75]);
-                    record.setTAUD_ERR_VAR_1(fields[76]);
-                    record.setTAUD_ERR_VAR_2(fields[77]);
-                    record.setTAUD_NFT_1_VAR_1(fields[78]);
-                    record.setTAUD_NFT_1_VAR_2(fields[79]);
-                    record.setTAUD_NFT_2_VAR_1(fields[80]);
-                    record.setTAUD_NFT_2_VAR_2(fields[81]);
+                    //61-90 started with TAUD_EVENT9 (Dallas))
+                    record.setTAUD_EVENT9(checkNull(fields[61]));
+                    record.setTAUD_USERAUT9(checkNull(fields[62]));
+                    record.setTAUD_EVENT10(checkNull(fields[63]));
+                    record.setTAUD_USERAUT10(checkNull(fields[64]));
+                    record.setTAUD_DES_INP_CPY(checkNull(fields[65]));
+                    record.setTAUD_INP_PANL(checkNull(fields[66]));
+                    record.setTAUD_TYP_PROCESS(checkNull(fields[67]));
+                    record.setTAUD_NUM_SEQUENCE(checkNull(fields[68]));
+                    record.setTAUD_KEY(checkNull(fields[69]));
+                    record.setTAUD_ATM(checkNull(fields[70]));
+                    record.setTAUD_DTA_INP_MOD(checkNull(fields[71]));
+                    record.setTAUD_TYP_MESSAGE(checkNull(fields[72]));
+                    record.setTAUD_ERR_COD(checkNull(fields[73]));
+                    record.setTAUD_COD_NOTIFY1(checkNull(fields[74]));
+                    record.setTAUD_COD_NOTIFY2(checkNull(fields[75]));
+                    record.setTAUD_ERR_VAR_1(checkNull(fields[76]));
+                    record.setTAUD_ERR_VAR_2(checkNull(fields[77]));
+                    record.setTAUD_NFT_1_VAR_1(checkNull(fields[78]));
+                    record.setTAUD_NFT_1_VAR_2(checkNull(fields[79]));
+                    record.setTAUD_NFT_2_VAR_1(checkNull(fields[80]));
+                    record.setTAUD_NFT_2_VAR_2(checkNull(fields[81]));
                     record.setTAUD_AMT_DISPENSER(Double.parseDouble(fields[82].replace(",", "")));
-                    record.setTAUD_LCL_EJOU(fields[83]);
-                    record.setTAUD_TYP_OUTPUT(fields[84]);
-                    record.setTAUD_DES_OUT_CPY(fields[85]);
-                    record.setTAUD_ARG_SEARCH(fields[86]);
-                    record.setTAUD_DESTINATIONS(fields[87]);
-                    record.setTAUD_FLG_PEND_AUT(fields[88]);
+                    record.setTAUD_LCL_EJOU(checkNull(fields[83]));
+                    record.setTAUD_TYP_OUTPUT(checkNull(fields[84]));
+                    record.setTAUD_DES_OUT_CPY(checkNull(fields[85]));
+                    record.setTAUD_ARG_SEARCH(checkNull(fields[86]));
+                    record.setTAUD_DESTINATIONS(checkNull(fields[87]));
+                    record.setTAUD_FLG_PEND_AUT(checkNull(fields[88]));
                     record.setTAUD_AMT_PEND_AUT(Double.parseDouble(fields[89].replace(",", "")));
-                    record.setTAUD_CUS_ADDIT_DAT(fields[90]);
+                    record.setTAUD_CUS_ADDIT_DAT(checkNull(fields[90]));
 
 
-                    //91-120 start with TAUD_ENT_ANALYTIC (Taylor)
-                    record.setTAUD_ENT_ANALYTIC(fields[91]);
-                    record.setTAUD_CEN_ANALYTIC(fields[92]);
-                    record.setTAUD_ANL_PROD(fields[93]);
-                    record.setTAUD_CUSTOMER(fields[94]);
+                    //91-120 start with TAUD_ENT_ANALYTIC (Taylor))
+                    record.setTAUD_ENT_ANALYTIC(checkNull(fields[91]));
+                    record.setTAUD_CEN_ANALYTIC(checkNull(fields[92]));
+                    record.setTAUD_ANL_PROD(checkNull(fields[93]));
+                    record.setTAUD_CUSTOMER(checkNull(fields[94]));
                     record.setTAUD_AMT(Double.parseDouble(fields[95].replace(",", "")));
-                    record.setTAUD_COD_SPRD(fields[96]);
-                    record.setTAUD_ANL_AIM(fields[97]);
-                    record.setTAUD_ANL_COLT(fields[98]);
-                    record.setTAUD_ANL_SUBCLASSI(fields[99]);
-                    record.setTAUD_TYP_OPE(fields[100]);
-                    record.setTAUD_ACCT_OPE(fields[101]);
-                    record.setTAUD_DTA_APP(fields[102]);
-                    record.setTAUD_CHANNEL(fields[103]);
-                    record.setTAUD_SW_COD_START(fields[104]);
-                    record.setTAUD_SW_LGON_USERI(fields[105]);
-                    record.setTAUD_SW_PREFMT(fields[106]);
-                    record.setTAUD_SW_MGC_ALRM(fields[107]);
-                    record.setTAUD_SW_FLG_CHK_PS(fields[108]);
-                    record.setTAUD_SW_TYP_EXCEPT(fields[109]);
-                    record.setTAUD_FLG_ANL_CHK(fields[110]);
+                    record.setTAUD_COD_SPRD(checkNull(fields[96]));
+                    record.setTAUD_ANL_AIM(checkNull(fields[97]));
+                    record.setTAUD_ANL_COLT(checkNull(fields[98]));
+                    record.setTAUD_ANL_SUBCLASSI(checkNull(fields[99]));
+                    record.setTAUD_TYP_OPE(checkNull(fields[100]));
+                    record.setTAUD_ACCT_OPE(checkNull(fields[101]));
+                    record.setTAUD_DTA_APP(checkNull(fields[102]));
+                    record.setTAUD_CHANNEL(checkNull(fields[103]));
+                    record.setTAUD_SW_COD_START(checkNull(fields[104]));
+                    record.setTAUD_SW_LGON_USERI(checkNull(fields[105]));
+                    record.setTAUD_SW_PREFMT(checkNull(fields[106]));
+                    record.setTAUD_SW_MGC_ALRM(checkNull(fields[107]));
+                    record.setTAUD_SW_FLG_CHK_PS(checkNull(fields[108]));
+                    record.setTAUD_SW_TYP_EXCEPT(checkNull(fields[109]));
+                    record.setTAUD_FLG_ANL_CHK(checkNull(fields[110]));
                     record.setTAUD_NUM_ANL_CHK(Double.parseDouble(fields[111].replace(",", "")));
-                    record.setTAUD_SW_TYP_CEN(fields[112]);
-                    record.setTAUD_SW_RISK_APPR(fields[113]);
+                    record.setTAUD_SW_TYP_CEN(checkNull(fields[112]));
+                    record.setTAUD_SW_RISK_APPR(checkNull(fields[113]));
                     record.setTAUD_NUM_TASK_TIM(Double.parseDouble(fields[114].replace(",", "")));
                     record.setTAUD_NUM_APP_TIM_1(Double.parseDouble(fields[115].replace(",", "")));
                     record.setTAUD_NUM_APP_TIM_2(Double.parseDouble(fields[116].replace(",", "")));
-                    record.setTAUD_FLG_EMULATION(fields[117]);
+                    record.setTAUD_FLG_EMULATION(checkNull(fields[117]));
                     record.setTAUD_NUM_VAL_RUT(Double.parseDouble(fields[118].replace(",", "")));
                     record.setTAUD_DEB_CASH(Double.parseDouble(fields[119].replace(",", "")));
                     record.setTAUD_DEB_CLEARING(Double.parseDouble(fields[120].replace(",", "")));
@@ -194,25 +196,25 @@ public class Main {
                     record.setTAUD_AMT_CSHCRE(Double.parseDouble(fields[121].replace(",", "")));
                     record.setTAUD_AMT_CLCRE(Double.parseDouble(fields[122].replace(",", "")));
                     record.setTAUD_NUM_JOU_REC(Double.parseDouble(fields[123].replace(",", "")));
-                    record.setTAUD_FLG_UPD_STR(fields[124]);
+                    record.setTAUD_FLG_UPD_STR(checkNull(fields[124]));
                     record.setTAUD_NUM_SEND(Double.parseDouble(fields[125].replace(",", "")));
                     record.setTAUD_NUM_CHARACTER(Double.parseDouble(fields[126].replace(",", "")));
                     record.setTAUD_NUM_MAP_DOCU(Double.parseDouble(fields[127].replace(",", "")));
                     record.setTAUD_NUM_MAP_SCR(Double.parseDouble(fields[128].replace(",", "")));
                     record.setTAUD_NUM_STD_MAP(Double.parseDouble(fields[129].replace(",", "")));
                     record.setTAUD_NUM_NOSTD_MAP(Double.parseDouble(fields[130].replace(",", "")));
-                    record.setTAUD_PREFORMAT_1(fields[131]);
-                    record.setTAUD_PREFORMAT_2(fields[132]);
-                    record.setTAUD_ERR_OBJECT(fields[133]);
+                    record.setTAUD_PREFORMAT_1(checkNull(fields[131]));
+                    record.setTAUD_PREFORMAT_2(checkNull(fields[132]));
+                    record.setTAUD_ERR_OBJECT(checkNull(fields[133]));
                     record.setTAUD_SQLCODE(Integer.parseInt(fields[134].replace(",", "")));
-                    record.setTAUD_SQLERRM(fields[135]);
-                    record.setTAUD_EIBFN(fields[136]);
-                    record.setTAUD_EIBRSRCE(fields[137]);
-                    record.setTAUD_EIBRCODE(fields[138]);
+                    record.setTAUD_SQLERRM(checkNull(fields[135]));
+                    record.setTAUD_EIBFN(checkNull(fields[136]));
+                    record.setTAUD_EIBRSRCE(checkNull(fields[137]));
+                    record.setTAUD_EIBRCODE(checkNull(fields[138]));
                     record.setTAUD_EIBRESP1(Integer.parseInt(fields[139].replace(",", "")));
                     record.setTAUD_EIBRESP2(Integer.parseInt(fields[140].replace(",", "")));
                     record.setTAUD_INP_MSG_LTH(Double.parseDouble(fields[141].replace(",", "")));
-                    record.setTAUD_INP_MSG(fields[142]);
+                    record.setTAUD_INP_MSG(checkNull(fields[142]));
                 }
                 try
                 {
@@ -222,13 +224,12 @@ public class Main {
 
                     String JsonString = out.toString();
 
-                    list.add((DBObject) JSON.parse(JsonString));
+                    list.add(Document.parse(JsonString));
                     i++;
-                    //myColl.insert((DBObject) JSON.parse(JsonString));
 
                     if (i >= 2500 || !sc.hasNextLine())
                     {
-                        myColl.insert(list);
+                        myColl.insertMany(list);
 
                         list = new ArrayList<>();
 
@@ -275,6 +276,16 @@ public class Main {
 
         client.close();
 
+    }
+
+    private static String checkNull(String field)
+    {
+        if (field.trim().length() == 0)
+        {
+            field = null;
+        }
+
+        return field;
     }
 
 }
