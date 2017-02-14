@@ -11,8 +11,9 @@ public class Main {
 
         String line;
         String[] fields;
-        List<QADTAUD> list = new ArrayList<>();
+        List<DBObject> list = new ArrayList<>();
         QADTAUD record;
+        int i;
 
 
         ObjectMapper mapper = new ObjectMapper();
@@ -21,7 +22,7 @@ public class Main {
 
         DB db = client.getDB("AuditTrail");
 
-        DBCollection myColl = db.getCollection("Records");
+        DBCollection myColl = db.getCollection("Test");
 
         //*************
         // READ IN FILE
@@ -39,7 +40,7 @@ public class Main {
             //BufferedReader br = new BufferedReader(fr);
             Scanner sc = new Scanner(fr);
 
-
+            i = 0;
 
             //*********************
             // SPLIT FILE BY RECORD
@@ -221,7 +222,18 @@ public class Main {
 
                     String JsonString = out.toString();
 
-                    myColl.insert((DBObject) JSON.parse(JsonString));
+                    list.add((DBObject) JSON.parse(JsonString));
+                    i++;
+                    //myColl.insert((DBObject) JSON.parse(JsonString));
+
+                    if (i >= 2500 || !sc.hasNextLine())
+                    {
+                        myColl.insert(list);
+
+                        list = new ArrayList<>();
+
+                        i = 0;
+                    }
                 }
                 catch (IOException e) {
                     e.printStackTrace();
@@ -264,6 +276,5 @@ public class Main {
         client.close();
 
     }
-
 
 }
