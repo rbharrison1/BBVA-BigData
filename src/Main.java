@@ -26,6 +26,7 @@ public class Main {
 
         MongoCollection myColl = db.getCollection("Test");
 
+
         //*************
         // READ IN FILE
         //*************
@@ -33,7 +34,7 @@ public class Main {
         //Console c = System.console();
         //System.out.print("File path: ");
         //String path = c.readLine();
-        String path = "C:/Users/rharrison15/Desktop/Test Files/FTD.AUDXMIT.QA.161208.1";
+        String path = "C:\\Users\\rharrison15\\Desktop\\Test Files\\FTD.AUDXMIT.QA.161208.1";
 
         try {
 
@@ -214,7 +215,7 @@ public class Main {
                     record.setTAUD_EIBRESP1(Integer.parseInt(fields[139].replace(",", "")));
                     record.setTAUD_EIBRESP2(Integer.parseInt(fields[140].replace(",", "")));
                     record.setTAUD_INP_MSG_LTH(Double.parseDouble(fields[141].replace(",", "")));
-                    record.setTAUD_INP_MSG(checkNull(fields[142]));
+                    record.setTAUD_INP_MSG(fields[142] + "|" + fields[143] + "|" + fields[144] + "|" + fields[145]);
                 }
                 try
                 {
@@ -229,6 +230,7 @@ public class Main {
 
                     if (i >= 2500 || !sc.hasNextLine())
                     {
+
                         myColl.insertMany(list);
 
                         list = new ArrayList<>();
