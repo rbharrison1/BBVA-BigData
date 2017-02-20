@@ -44,7 +44,7 @@ public class Main {
             Scanner sc = new Scanner(fr);
 
             i = 0;
-
+            record = new QADTAUD();
             //*********************
             // SPLIT FILE BY RECORD
             //*********************
@@ -55,7 +55,7 @@ public class Main {
                 line = sc.nextLine();
                 fields = line.split("[|]");
 
-                record = new QADTAUD();
+
 
                 //************************************************************
                 // ASSIGN EACH FIELD TO CORRESPONDING MEMBER IN QADTAUD OBJECT
@@ -223,6 +223,9 @@ public class Main {
                     mapper.writeValue(out, record);
 
 
+                    //******************
+                    // INSERT TO MONGODB
+                    //******************
                     String JsonString = out.toString();
 
                     list.add(Document.parse(JsonString));
@@ -271,9 +274,6 @@ public class Main {
         */
 
 
-        //******************
-        // INSERT TO MONGODB
-        //******************
 
 
         client.close();
