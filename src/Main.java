@@ -8,7 +8,7 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-
+    //region QADTAUD
         String line;
         String[] fields;
         List<QADTAUD> list = new ArrayList<>();
@@ -262,7 +262,102 @@ public class Main {
 
 
         client.close();
+    //endregion
+    //region QADTFDC
+        String line1;
+        String[] fields1;
+        List<QADTFDC> list1 = new ArrayList<>();
+        QADTFDC record1;
 
+
+        ObjectMapper mapper1 = new ObjectMapper();
+
+        MongoClient client1 = new MongoClient("BBVA-bigdata.eil-server.cba.ua.edu", 27017);
+
+        DB db1 = client1.getDB("InputLayout");
+
+        DBCollection myColl1 = db1.getCollection("RecordsTFDC");
+
+        //*************
+        // READ IN FILE
+        //*************
+
+        String path1 = "C:\\Users\\dlocke15\\Desktop\\BBVA Text Files\\ZIP 1\\qadtfdc.report";
+
+        try {
+
+            FileReader fr = new FileReader(path1);
+
+            Scanner sc = new Scanner(fr);
+
+            //*********************
+            // SPLIT FILE BY RECORD
+            //*********************
+
+            while(sc.hasNextLine()) {
+
+                //***************************
+                // SPLIT EACH RECORD BY FIELD
+                //***************************
+
+                line1 = sc.nextLine();
+                fields1 = line1.split("[|]");
+                record1 = new QADTFDC();
+
+                //************************************************************
+                // ASSIGN EACH FIELD TO CORRESPONDING MEMBER IN QADTAUD OBJECT
+                // ADD OBJECT TO LIST
+                //************************************************************
+
+                if (fields1.length > 100) {
+                    record1.setTFDC_DES_COPY(fields1[1]);
+                    record1.setTFDC_NUM_FLD_ID(Double.parseDouble(fields1[2].replace(",", "")));
+                    record1.setTFDC_FLD_PST(Double.parseDouble(fields1[3].replace(",", "")));
+                    record1.setTFDC_FLD_TAG(fields1[4]);
+                    record1.setTFDC_DES_FIELD(fields1[5]);
+                    record1.setTFDC_TYP_FIELD(fields1[6]);
+                    record1.setTFDC_FLD_LTH(Double.parseDouble(fields1[7].replace(",", "")));
+                    record1.setTFDC_DEC_DIG(Double.parseDouble(fields1[8].replace(",", "")));
+                    record1.setTFDC_DELIMITER(fields1[9]);
+                    record1.setTFDC_REQ_FLD(fields1[10]);
+                    record1.setTFDC_RUT_VAL(fields1[11]);
+                    record1.setTFDC_ARG_SEARCH(fields1[12]);
+                    record1.setTFDC_FLD_ENCRYPT(fields1[13]);
+                    record1.setTFDC_RESERVED_1(fields1[14]);
+                }
+                try
+                {
+                    OutputStream out = new ByteArrayOutputStream();
+                    mapper1.writeValue(out, record1);
+
+
+                    String JsonString = out.toString();
+
+                    myColl1.insert((DBObject) JSON.parse(JsonString));
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //list.add(record);
+
+            }
+            if (sc.ioException() != null) {
+                throw sc.ioException();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //*********************************
+        // CONVERT FROM JAVA OBJECT TO JSON
+        //*********************************
+
+        //******************
+        // INSERT TO MONGODB
+        //******************
+        client1.close();
+    //endregion
     }
 
 
