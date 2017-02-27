@@ -1,3 +1,4 @@
+
 /**
  * Created by dlocke15 on 2/15/2017.
  */
@@ -100,4 +101,5 @@ public class QADTFDC {
     public void setTFDC_RESERVED_1(String TFDC_RESERVED_1) {
         this.TFDC_RESERVED_1 = TFDC_RESERVED_1;
     }
+
 }

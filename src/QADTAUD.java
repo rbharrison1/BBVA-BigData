@@ -1,3 +1,5 @@
+import org.bson.Document;
+
 import java.util.Date;
 
 /**
@@ -145,7 +147,7 @@ public class QADTAUD {
     private int TAUD_EIBRESP1;
     private int TAUD_EIBRESP2;
     private double TAUD_INP_MSG_LTH;
-    private String TAUD_INP_MSG;
+    private Document TAUD_INP_MSG;
 
 
     public String getTAUD_ENT() {
@@ -1276,11 +1278,11 @@ public class QADTAUD {
         this.TAUD_INP_MSG_LTH = TAUD_INP_MSG_LTH;
     }
 
-    public String getTAUD_INP_MSG() {
+    public Document getTAUD_INP_MSG() {
         return TAUD_INP_MSG;
     }
 
-    public void setTAUD_INP_MSG(String TAUD_INP_MSG) {
+    public void setTAUD_INP_MSG(Document TAUD_INP_MSG) {
         this.TAUD_INP_MSG = TAUD_INP_MSG;
     }
 }

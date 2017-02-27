@@ -1,11 +1,14 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.*;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
 import java.io.*;
 import java.util.*;
+
+import static com.mongodb.client.model.Filters.eq;
 
 public class Main {
 
@@ -29,13 +32,14 @@ public class Main {
 
         MongoDatabase db = client.getDatabase("AuditTrail");
 
-        MongoCollection myColl = db.getCollection("QADTAUD");
+        MongoCollection myColl = db.getCollection("Test");
 
+        MongoCollection fdc = db.getCollection("QADTFDC");
 
         //Console c = System.console();
         //System.out.print("File path: ");
         //String path = c.readLine();
-        String path = "C:\\Users\\rharrison15\\Desktop\\Test Files\\FTD.AUDXMIT.QA.161208.1";
+        String path = "C:\\Users\\rharrison15\\Desktop\\Test Files\\Test.1";
 
         try {
 
@@ -51,7 +55,7 @@ public class Main {
                 fields = line.split("[|]");
 
                 try {
-                    record = LineToQADTAUD(record, fields);
+                    record = LineToQADTAUD(record, fields, fdc);
                 }
                 catch (ArrayIndexOutOfBoundsException e)
                 {
@@ -184,7 +188,7 @@ public class Main {
 
     }
 
-    private static QADTAUD LineToQADTAUD(QADTAUD record, String[] fields) {
+    private static QADTAUD LineToQADTAUD(QADTAUD record, String[] fields, MongoCollection fdc) throws IOException {
         record.setTAUD_ENT(checkNull(fields[1]));
         record.setTAUD_URN(checkNull(fields[2]));
         record.setTAUD_STP_REG(checkNull(fields[3]));
@@ -326,7 +330,43 @@ public class Main {
         record.setTAUD_EIBRESP1(Integer.parseInt(fields[139].replace(",", "")));
         record.setTAUD_EIBRESP2(Integer.parseInt(fields[140].replace(",", "")));
         record.setTAUD_INP_MSG_LTH(Double.parseDouble(fields[141].replace(",", "")));
-        record.setTAUD_INP_MSG(fields[142] + "|" + fields[143] + "|" + fields[144] + "|" + fields[145]);
+        //record.setTAUD_INP_MSG(fields[142] + "|" + fields[143] + "|" + fields[144] + "|" + fields[145]);
+
+        List<Document> list = new ArrayList<>();
+        List<QADTFDC> fdcFields = new ArrayList<>();
+
+        MongoCursor<Document> cursor = fdc.find(eq("tfdc_DES_COPY", record.getTAUD_DES_INP_CPY().replace(" ",""))).iterator();
+
+        while (cursor.hasNext())
+        {
+            list.add((Document) cursor.next());
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        for (Document x : list)
+        {
+            x.remove("_id");
+            String JsonString = x.toJson();
+            QADTFDC temp = mapper.readValue(JsonString, QADTFDC.class);
+
+            fdcFields.add(temp);
+        }
+
+        Collections.sort(fdcFields, (o1, o2) -> o1.getTFDC_NUM_FLD_ID().compareTo(o2.getTFDC_NUM_FLD_ID()));
+
+        Document doc = new Document();
+        for (QADTFDC x : fdcFields)
+        {
+            if (x.getTFDC_DES_FIELD() != null) {
+                doc.append(x.getTFDC_DES_FIELD().replaceAll("[ .]", "_"), checkNull(fields[145].substring(x.getTFDC_FLD_PST().intValue() - 1, x.getTFDC_FLD_PST().intValue() + x.getTFDC_FLD_LTH().intValue() - 1)));
+            }
+            else{
+                doc.append(x.getTFDC_FLD_TAG(), checkNull(fields[145].substring(x.getTFDC_FLD_PST().intValue() - 1, x.getTFDC_FLD_PST().intValue() + x.getTFDC_FLD_LTH().intValue() - 1)));
+            }
+        }
+
+        record.setTAUD_INP_MSG(doc);
 
         return record;
     }
