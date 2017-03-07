@@ -32,14 +32,14 @@ public class Main {
 
         MongoDatabase db = client.getDatabase("AuditTrail");
 
-        MongoCollection myColl = db.getCollection("Test");
+        MongoCollection myColl = db.getCollection("QADTAUD");
 
         MongoCollection fdc = db.getCollection("QADTFDC");
 
         //Console c = System.console();
         //System.out.print("File path: ");
         //String path = c.readLine();
-        String path = "C:\\Users\\rharrison15\\Desktop\\Test Files\\Test.1";
+        String path = "C:\\Users\\rharrison15\\Desktop\\Test Files\\FTD.AUDXMIT.QA.161208.1";
 
         try {
 
@@ -59,18 +59,21 @@ public class Main {
                 }
                 catch (ArrayIndexOutOfBoundsException e)
                 {
-                    e.printStackTrace();
+                    System.out.println(line);
                 }
 
                 try
                 {
-                    OutputStream out = new ByteArrayOutputStream();
-                    mapper.writeValue(out, record);
+                    if (record.getTAUD_URN().trim() != null)
+                    {
+                        OutputStream out = new ByteArrayOutputStream();
+                        mapper.writeValue(out, record);
 
-                    String JsonString = out.toString();
+                        String JsonString = out.toString();
 
-                    list.add(Document.parse(JsonString));
-                    i++;
+                        list.add(Document.parse(JsonString));
+                        i++;
+                    }
 
                     if (i >= 2500 || !sc.hasNextLine())
                     {
@@ -132,8 +135,9 @@ public class Main {
 
             while(sc.hasNextLine()) {
                 line = sc.nextLine();
+
                 //region splitting line into fixed length fields
-                fields[0] = line.substring(0,7).replace(" ","");
+                fields[0] = line.substring(0,8).replace(" ","");
                 fields[1] = line.substring(10,16).replace(" ","");
                 fields[2] = line.substring(18,26).replace(" ","");
                 fields[3] = line.substring(28,35);
@@ -335,36 +339,62 @@ public class Main {
         List<Document> list = new ArrayList<>();
         List<QADTFDC> fdcFields = new ArrayList<>();
 
-        MongoCursor<Document> cursor = fdc.find(eq("tfdc_DES_COPY", record.getTAUD_DES_INP_CPY().replace(" ",""))).iterator();
+        MongoCursor<Document> cursor = null;
+        Document doc = null;
 
-        while (cursor.hasNext())
-        {
-            list.add((Document) cursor.next());
+        String sdString = "";
+
+
+        try {
+            cursor = fdc.find(eq("tfdc_DES_COPY", record.getTAUD_DES_INP_CPY().replace(" ", ""))).iterator();
         }
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        for (Document x : list)
+        catch (NullPointerException e)
         {
-            x.remove("_id");
-            String JsonString = x.toJson();
-            QADTFDC temp = mapper.readValue(JsonString, QADTFDC.class);
-
-            fdcFields.add(temp);
+            //e.printStackTrace();
+            //System.out.println(record.getTAUD_URN());
         }
-
-        Collections.sort(fdcFields, (o1, o2) -> o1.getTFDC_NUM_FLD_ID().compareTo(o2.getTFDC_NUM_FLD_ID()));
-
-        Document doc = new Document();
-        for (QADTFDC x : fdcFields)
+        finally
         {
-            if (x.getTFDC_DES_FIELD() != null) {
-                doc.append(x.getTFDC_DES_FIELD().replaceAll("[ .]", "_"), checkNull(fields[145].substring(x.getTFDC_FLD_PST().intValue() - 1, x.getTFDC_FLD_PST().intValue() + x.getTFDC_FLD_LTH().intValue() - 1)));
+            if (cursor != null) {
+                while (cursor.hasNext()) {
+                    list.add((Document) cursor.next());
+                }
+
+                ObjectMapper mapper = new ObjectMapper();
+
+                for (Document x : list) {
+                    x.remove("_id");
+                    String JsonString = x.toJson();
+                    QADTFDC temp = mapper.readValue(JsonString, QADTFDC.class);
+
+                    fdcFields.add(temp);
+                }
+
+                Collections.sort(fdcFields, (o1, o2) -> o1.getTFDC_NUM_FLD_ID().compareTo(o2.getTFDC_NUM_FLD_ID()));
+
+                doc = new Document();
+                String fieldName = "";
+                for (QADTFDC x : fdcFields) {
+                    fieldName = x.getTFDC_FLD_TAG().trim();
+                    try {
+                        doc.append(fieldName, checkNull(fields[145].substring(x.getTFDC_FLD_PST().intValue() - 1, x.getTFDC_FLD_PST().intValue() + x.getTFDC_FLD_LTH().intValue() - 1)));
+                    } catch (StringIndexOutOfBoundsException err) {
+                        //err.printStackTrace();
+                        //System.out.println(record.getTAUD_URN() + " ------------- " + x.getTFDC_DES_COPY() + " " + x.getTFDC_FLD_PST() + " " + x.getTFDC_FLD_LTH());
+                        //System.out.println(record.getTAUD_URN());
+                        doc.append(fieldName, null);
+                    }
+
+                }
+
+                if (fields[145].contains("<SD>"))
+                {
+                    sdString = fields[145].substring(fields[145].lastIndexOf("<SD>") + 4).replace("</SD>", "");
+                    doc.append("SD", sdString);
+                }
             }
-            else{
-                doc.append(x.getTFDC_FLD_TAG(), checkNull(fields[145].substring(x.getTFDC_FLD_PST().intValue() - 1, x.getTFDC_FLD_PST().intValue() + x.getTFDC_FLD_LTH().intValue() - 1)));
-            }
         }
+
 
         record.setTAUD_INP_MSG(doc);
 
