@@ -52,14 +52,14 @@ public class Main {
 
             while(sc.hasNextLine()) {
                 line = sc.nextLine();
-                fields = line.split("[|]");
+                fields = line.split("[|]",146);
 
                 try {
                     record = LineToQADTAUD(record, fields, fdc);
                 }
                 catch (ArrayIndexOutOfBoundsException e)
                 {
-                    System.out.println(line);
+                    //System.out.println(line);
                 }
 
                 try
@@ -372,6 +372,12 @@ public class Main {
 
                 Collections.sort(fdcFields, (o1, o2) -> o1.getTFDC_NUM_FLD_ID().compareTo(o2.getTFDC_NUM_FLD_ID()));
 
+                if (fields[145].contains("<SD>")) {
+                    sdString = fields[145].substring(fields[145].lastIndexOf("<SD>") + 4).replace("</SD>", "");
+                }
+
+                fields[145] = fields[145].split("</ME>",2)[0];
+
                 doc = new Document();
                 String fieldName = "";
                 for (QADTFDC x : fdcFields) {
@@ -387,9 +393,8 @@ public class Main {
 
                 }
 
-                if (fields[145].contains("<SD>"))
+                if (!sdString.isEmpty())
                 {
-                    sdString = fields[145].substring(fields[145].lastIndexOf("<SD>") + 4).replace("</SD>", "");
                     doc.append("SD", sdString);
                 }
             }
