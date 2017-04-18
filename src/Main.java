@@ -164,7 +164,7 @@ public class Main {
                     list.add(Document.parse(JsonString));
                     i++;
 
-                    if (i >= 3000 || !sc.hasNextLine())
+                    if (i >= 2500 || !sc.hasNextLine())
                     {
 
                         myColl.insertMany(list);
