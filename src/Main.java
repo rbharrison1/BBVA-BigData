@@ -346,6 +346,7 @@ public class Main {
 
 
         try {
+            //Retreives all records in QADTFDC table in order to map TAUD_INP_MSG
             cursor = fdc.find(eq("tfdc_DES_COPY", record.getTAUD_DES_INP_CPY().replace(" ", ""))).iterator();
         }
         catch (NullPointerException e)
@@ -357,6 +358,7 @@ public class Main {
         {
             if (cursor != null) {
                 while (cursor.hasNext()) {
+                    //Populates list with records from cursor
                     list.add((Document) cursor.next());
                 }
 
@@ -365,11 +367,13 @@ public class Main {
                 for (Document x : list) {
                     x.remove("_id");
                     String JsonString = x.toJson();
+                    //ObjectMapper converts JSON to Java Object
                     QADTFDC temp = mapper.readValue(JsonString, QADTFDC.class);
 
                     fdcFields.add(temp);
                 }
 
+                //Sorts TAUD_INP_MSG fields in correct order
                 Collections.sort(fdcFields, (o1, o2) -> o1.getTFDC_NUM_FLD_ID().compareTo(o2.getTFDC_NUM_FLD_ID()));
 
                 if (fields[145].contains("<SD>")) {
@@ -380,6 +384,7 @@ public class Main {
 
                 doc = new Document();
                 String fieldName = "";
+                //For each QADTFDC field, the TAUD_INP_MSG string is split and mapped
                 for (QADTFDC x : fdcFields) {
                     fieldName = x.getTFDC_FLD_TAG().trim();
                     try {
